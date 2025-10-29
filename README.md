@@ -5,10 +5,10 @@ A **Docker commands palette** for the [Zed editor](https://zed.dev/). This exten
 ## Requirements
 
 - Zed editor v0.160.0 or later
-- No additional dependencies
+- Docker CLI
 
 ## Features Roadmap (v1.0.0) 
-- ❌ **Containers**
+- 🔄 **Containers**
   - Start containers
   - Stop containers
   - Restart containers

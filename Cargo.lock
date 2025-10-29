@@ -60,7 +60,7 @@ dependencies = [
 
 [[package]]
 name = "docker"
-version = "0.0.1"
+version = "1.0.0"
 dependencies = [
  "zed_extension_api",
 ]

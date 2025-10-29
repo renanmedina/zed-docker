@@ -1,28 +1,32 @@
 use zed_extension_api::{
     self as zed, SlashCommand, SlashCommandArgumentCompletion, SlashCommandOutput, Worktree
 };
+mod commands;
+use commands::*;
 
 struct DockerExtension;
 
 impl DockerExtension {
-    fn load_containers(&self) -> Result<Vec<SlashCommandArgumentCompletion>, String> {
-        return Ok(vec![
-            SlashCommandArgumentCompletion {
-                label: "Container 1".to_string(),
-                new_text: "container-1".to_string(),
-                run_command: true,
-            },
-            SlashCommandArgumentCompletion {
-                label: "Container 2".to_string(),
-                new_text: "container-2".to_string(),
-                run_command: true,
-            },
-            SlashCommandArgumentCompletion {
-                label: "Container 3".to_string(),
-                new_text: "container-3".to_string(),
-                run_command: true,
-            },
-        ]);
+    fn present_containers(&self, containers: Vec<containers::Container>) -> Result<Vec<SlashCommandArgumentCompletion>, String> {
+        let completions = containers.iter().map(|container| SlashCommandArgumentCompletion {
+            label: container.name.clone(),
+            new_text: container.name.clone(),
+            run_command: true,
+        }).collect();
+
+        return Ok(completions);
+    }
+
+    fn present_up_containers(&self) -> Result<Vec<SlashCommandArgumentCompletion>, String> {
+       return self.present_containers(containers::list_up_containers()?);
+    }
+
+    fn present_down_containers(&self) -> Result<Vec<SlashCommandArgumentCompletion>, String> {
+        return self.present_containers(containers::list_down_containers()?);
+    }
+
+    fn present_all_containers(&self) -> Result<Vec<SlashCommandArgumentCompletion>, String> {
+        return self.present_containers(containers::list_all_containers()?);
     }
 
     fn start_container(&self, command: SlashCommand) -> Result<SlashCommandOutput, String> {
@@ -76,10 +80,10 @@ impl zed::Extension for DockerExtension {
     fn complete_slash_command_argument(&self, command: SlashCommand, _args: Vec<String>) 
         -> Result<Vec<SlashCommandArgumentCompletion>, String> {
         match command.name.as_str() {
-            "start" => self.load_containers(),
-            "stop" => self.load_containers(),
-            "inspect" => self.load_containers(),
-            "restart" => self.load_containers(),
+            "start" => self.present_up_containers(),
+            "stop" => self.present_down_containers(),
+            "inspect" => self.present_all_containers(),
+            "restart" => self.present_up_containers(),
             command => Err(format!("unknown slash command: \"{command}\"")),
         }
     }
