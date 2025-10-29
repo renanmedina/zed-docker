@@ -49,7 +49,7 @@ This extension is designed for **provide commands to interact with docker direct
 
 ## Development Roadmap
 
-### ❌ Phase 1: Containers commands (In Development)
+### 🔄 Phase 1: Containers commands (In Development)
 - Start/Stop/Restart/Delete containers
 
 ### 🔮 Phase 2: Images commands
