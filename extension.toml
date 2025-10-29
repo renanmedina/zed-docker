@@ -1,0 +1,23 @@
+id = "docker"
+name = "Docker"
+version = "0.0.1"
+schema_version = 1
+authors = ["Renan Medina <renan@silvamedina.com.br>"]
+description = "Extension to manage docker through commands directly from Zed Editor"
+repository = "https://github.com/renanmedina/zed-docker"
+
+[slash_commands.start]
+description = "Start a docker container"
+requires_argument = true
+
+[slash_commands.stop]
+description = "Stops a docker container"
+requires_argument = true
+
+[slash_commands.inspect]
+description = "Inspects a docker container"
+requires_argument = true
+
+[slash_commands.restart]
+description = "Restarts a docker container"
+requires_argument = true
